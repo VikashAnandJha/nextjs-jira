@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { tasks } from "./tasks"; // Adjust the import path as needed
 import Image from "next/image";
@@ -8,10 +9,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Span } from "next/dist/trace";
 import { Button } from "@/components/ui/button";
-import { EnvelopeOpenIcon, PlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from "@radix-ui/react-icons";
+
+import { NewTask } from "@/components/NewTask";
+import { useState } from "react";
 export default function Home() {
+  const [showTaskDialog, setshowTaskDialog] = useState(false);
   const getClassForBadge = (label) => {
     if (label === "Feature") return "bg-green-500 text-white px-2 py-1 rounded";
     if (label === "Improvement")
@@ -54,7 +58,8 @@ export default function Home() {
       <div className="flex justify-between items-center">
         <div className="flex">
           <Image src={"/teevralogo.png"} width={120} height={80} alt="logo" />
-          <Button>
+
+          <Button onClick={() => setshowTaskDialog(true)}>
             <PlusIcon className="mr-2 h-4 w-4" /> New Task
           </Button>
         </div>
@@ -101,6 +106,10 @@ export default function Home() {
           {renderTasks("done")}
         </div>
       </div>
+      <NewTask
+        showTaskDialog={showTaskDialog}
+        setshowTaskDialog={setshowTaskDialog}
+      />
     </main>
   );
 }
